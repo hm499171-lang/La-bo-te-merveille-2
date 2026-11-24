@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Boîte à Merveilles – مرافق التلميذ</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#d9cdb8;--paper:#fbf4e4;--paper2:#f3e8cf;--tx:#33291b;--mut:#8a7a5e;--ac:#a8481a;--card:#fffaf0;--bd:#dccfb4}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#14110d;--paper:#2b251b;--paper2:#241f16;--tx:#eadfc6;--mut:#a89973;--ac:#e8934f;--card:#332b1f;--bd:#4a3f2c}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#14110d;--paper:#2b251b;--paper2:#241f16;--tx:#eadfc6;--mut:#a89973;--ac:#e8934f;--card:#332b1f;--bd:#4a3f2c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:12px;max-width:560px;margin-inline:auto;min-height:100vh;line-height:1.8}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tabs button{flex:1;padding:8px 2px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font:inherit;font-size:.85rem;cursor:pointer}
+.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.btn,.nav button{border:1px solid var(--ac);background:var(--card);color:var(--ac);border-radius:20px;padding:6px 14px;font:inherit;font-size:.9rem;cursor:pointer}
+.nav button:disabled{opacity:.35}
+.tools{display:flex;gap:8px;margin-bottom:8px}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:10px}
+.book{position:relative;perspective:1600px;height:min(62vh,480px);touch-action:pan-y}
+.page{position:absolute;inset:0;background:linear-gradient(90deg,var(--paper2),var(--paper) 9%);border-radius:3px 10px 10px 3px;box-shadow:0 6px 18px rgba(0,0,0,.3),inset 6px 0 8px -6px rgba(0,0,0,.35);padding:16px 22px 12px 28px;display:flex;flex-direction:column;direction:ltr;text-align:left;font-family:Merriweather,Georgia,serif;backface-visibility:hidden;transform-origin:left center}
+.page.fl{transition:transform .75s cubic-bezier(.45,.05,.3,1),opacity .75s;z-index:3}
+.head{display:flex;justify-content:space-between;font-size:.72rem;color:var(--mut);border-bottom:1px solid var(--bd);padding-bottom:6px}
+.body{flex:1;min-height:0;overflow:hidden;font-size:1.05rem;line-height:1.85;text-align:justify}.body p{margin:0;text-indent:1.2em}.body p.c{text-indent:0}.lib{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.lib select{flex:1;min-width:120px;padding:6px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit}.lib input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.lib textarea,#pt{width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--paper);color:var(--tx);font:inherit;direction:ltr;margin-bottom:6px}.st{font-size:.8rem;color:var(--mut);margin-bottom:6px}.tr{width:100%;padding:6px;border:1px solid var(--bd);border-radius:8px;background:var(--paper);color:var(--tx);font:inherit;margin:4px 0}
+.num{text-align:center;color:var(--mut);font-size:.85rem}
+.w{cursor:pointer;border-bottom:1.5px dotted var(--ac)}
+.w.sel{background:var(--ac);color:#fff;border-radius:3px}
+.nav{display:flex;justify-content:space-between;align-items:center;direction:ltr;margin-top:10px}
+.nav span,.hint{color:var(--mut);font-size:.82rem}
+.hint{text-align:center;margin-top:6px}
+.sheet{position:fixed;inset-inline:0;bottom:0;max-width:560px;margin-inline:auto;background:var(--card);border-top:3px solid var(--ac);border-radius:16px 16px 0 0;padding:14px 18px calc(16px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 20px rgba(0,0,0,.3);transform:translateY(110%);transition:transform .3s;z-index:10}
+.sheet.on{transform:none}
+.fr{direction:ltr;display:inline-block;font-family:Georgia,serif;font-size:1.2rem;font-weight:bold}
+.ph{direction:ltr;display:inline-block;font-family:monospace;color:var(--ac);margin-inline:6px}
+.x{float:left;border:0;background:none;color:var(--mut);font-size:1.3rem;cursor:pointer}
+.side{position:fixed;top:0;bottom:0;right:0;width:min(86vw,360px);background:var(--card);border-left:3px solid var(--ac);padding:calc(14px + env(safe-area-inset-top,0px)) 16px 20px;overflow-y:auto;transform:translateX(105%);transition:transform .3s;z-index:20;box-shadow:-6px 0 20px rgba(0,0,0,.3)}
+.side.on{transform:none}
+.card{min-height:150px;text-align:center;cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.mut{color:var(--mut);font-size:.85rem}
+details{margin-top:6px}summary{cursor:pointer;color:var(--ac)}
+b.a{color:var(--ac)}
+[hidden]{display:none}
+.tabs button.s{flex:0 0 46px}
+#xt{width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--paper);color:var(--tx);font:inherit;direction:ltr;margin:4px 0 8px}
+.set label{display:block;margin-top:8px;font-size:.9rem}
+.set select,.set input{width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--paper);color:var(--tx);font:inherit;direction:ltr}
+.set a{color:var(--ac)}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#a8481a">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+</head>
+<body>
+<div class="tabs"><button id="t1" class="on">📖 القراءة</button><button id="t2">🗂 مفرداتي</button><button id="t3">📝 الجهوي</button><button id="t4" class="s">⚙</button></div>
+
+<section id="p1">
+<div class="lib"><label class="btn" for="fileIn">📂 حمّل نسختك من الرواية</label><input type="file" id="fileIn" accept=".pdf,.txt,application/pdf,text/plain"><button class="btn" id="bPaste">📋 الصق النص</button><select id="chSel"></select><button class="btn" id="bDel" hidden>🗑 حذف</button></div><div class="st" id="st">نص تجريبي. حمّل ملف PDF أو TXT من جهازك ليُعرض الفصل كما هو.</div>
+<div class="box" id="pasteBox" hidden><div class="mut">انسخ الفصل (أو الرواية كاملة) من ملف PDF والصقه هنا، ثم اضغط «تحميل».</div><textarea id="pt" rows="6" placeholder="Chapitre I ..."></textarea><button class="btn" id="pgo">تحميل النص</button></div>
+<div class="tools"><button class="btn" id="bSum">📜 ملخص الفصل</button><button class="btn" id="bGuide">👥 دليل الشخصيات</button></div>
+<div class="box" id="sum" hidden></div>
+<div class="book" id="book"></div>
+<div class="nav"><button id="prev">◀ السابقة</button><span id="cnt"></span><button id="next">التالية ▶</button></div>
+<div class="hint">اسحب الصفحة · اضغط على كلمة لشرحها · النص تجريبي من تأليفي وليس من الرواية</div>
+</section>
+
+<section id="p2" hidden>
+<div class="box mut" id="fcInfo"></div>
+<div class="box card" id="fc"></div>
+<div class="nav"><button id="fPrev">◀</button><button id="fDel">🗑 حذف</button><button id="fNext">▶</button></div>
+</section>
+
+<section id="p3" hidden>
+<div class="box"><b class="a">اختر المقطع (extrait)</b>
+<div class="tools" style="margin-top:6px;align-items:center"><span class="mut">من صفحة</span><input class="tr" id="xa" type="number" min="1" value="1" style="width:68px;direction:ltr"><span class="mut">إلى</span><input class="tr" id="xb" type="number" min="1" value="1" style="width:68px;direction:ltr"><button class="btn" id="xcur">الصفحة الحالية</button></div>
+<div class="mut">أو الصق مقطعًا بنفسك (يتقدّم على الصفحات):</div>
+<textarea id="xt" rows="3" placeholder="Texte…"></textarea>
+<button class="btn" id="xgo">📝 ولّد أسئلة على نمط الجهوي</button>
+<div class="st" id="xst"></div></div>
+<div id="xout"></div>
+</section>
+
+<section id="p4" hidden class="set">
+<div class="box"><b class="a">⚙ الذكاء الاصطناعي</b>
+<p class="mut">يشرح الكلمات بالسياق ويولّد أسئلة الجهوي. المفتاح يُحفظ على جهازك فقط، ويُرسل إلى مزوّد الخدمة وحده.</p>
+<label>المزوّد<select id="aiProv"><option value="gemini">Google Gemini (مجاني)</option><option value="anthropic">Anthropic Claude (مدفوع)</option></select></label>
+<label>مفتاح API<input id="aiKey" type="password" autocomplete="off" placeholder="الصق المفتاح هنا"></label>
+<label>النموذج (اتركه فارغًا للافتراضي)<input id="aiModel" placeholder="gemini-2.5-flash / claude-haiku-5-5"></label>
+<p class="mut">مفتاح Gemini المجاني: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a></p>
+<p><button class="btn" id="aiTest">اختبار الاتصال</button> <button class="btn" id="aiClear">مسح ذاكرة الشروح</button></p>
+<div class="st" id="aiSt"></div></div>
+</section>
+
+<div class="sheet" id="sheet"></div>
+<div class="side" id="side"></div>
+
+<script>
+var BOOK="La Boîte à Merveilles",CH="Chapitre I";
+var PAGES=[
+"Le matin, Sidi Mohammed traversait la ruelle étroite. La vieille fontaine chantait doucement, et l’odeur du pain chaud flottait dans l’air. L’enfant, le cœur léger, avançait vers la boutique de son père.",
+"Devant la porte, un vieux marchand étalait ses épices. Les couleurs brillaient sous la lumière pâle. Sidi Mohammed s’arrêta, hésitant, puis il aperçut le regard sévère de son père.",
+"Le soir, la maison retrouvait son silence. Dans un coin de la chambre, l’enfant serrait contre lui une petite boîte, son trésor secret, où il cachait ses rêves."
+];
+/* ملخص الفصل التجريبي: استبدله بملخص فصلك الحقيقي */
+var SUMMARY={fr:"Un enfant marche dans la ruelle. Il croise un marchand. Son père le regarde sévèrement. Le soir, l’enfant retrouve sa petite boîte secrète.",ar:"طفل يمشي في الزقاق، يمرّ بتاجر، فينظر إليه أبوه بصرامة، وفي المساء يعود إلى صندوقه الصغير السري."};
+/* دليل الشخصيات والفضاءات: ملخصات أولية، راجعها مع كتابك */
+var CHARS=[
+["سيدي محمد","الطفل الراوي، يحكي ذكريات طفولته وهو في السادسة تقريباً: وحيد وحالم، وله «صندوق العجائب» الذي يحفظ فيه كنوزه الصغيرة."],
+["لالة زوبيدة","أم الطفل، امرأة متدينة تؤمن بالبركة والأولياء، وترمز إلى الحنان والتقاليد."],
+["المعلم عبد السلام (سيدي عبد السلام)","أب الطفل، نسّاج، يعود متأخراً إلى البيت، ويمثل السلطة والصرامة داخل الأسرة."],
+["لالة عائشة","من أبرز شخصيات الرواية، ترتبط بزوبيدة بعلاقة صداقة ومواساة. زوجها مولاي العربي."],
+["فاطمة بزيوية","جارة تشارك أسرة الطفل الطابق الثاني، وقريبة منه ومن أمه."],
+["إدريس العواد ورحمة","جاران في الطابق الأول مع ابنتهما زينب، الأكبر من الطفل بسنة."],
+["الشوّافة","العرّافة التي تسكن الطابق الأرضي وتقيم طقوساً وليالي كناوة."]];
+var PLACES=[
+["دار الشوّافة","البيت المشترك حيث يسكن الطفل، فيه الطابق الأرضي للعرّافة والأول لإدريس العواد والثاني لأسرته ولفاطمة بزيوية."],
+["المسيد","الكتّاب القرآني القريب من البيت حيث يحفظ الطفل القرآن."],
+["السقاية (Fontaine)","مكان عام في الحي، يوحي بالحياة اليومية."],
+["الزاوية","فضاء ديني وروحي في عالم الطفل."],
+["المدينة العتيقة (فاس)","الإطار العام للأحداث: أزقة ضيقة وأسواق وتقاليد."]];
+var G={
+ruelle:["زقاق","ʁɥɛl","الزقاق الضيق يرسم أجواء المدينة العتيقة."],
+étroite:["ضيقة","e.tʁwat","صفة للزقاق تعزز الإحساس بالانغلاق والألفة."],
+fontaine:["سقاية / نافورة","fɔ̃.tɛn","رمز للحياة اليومية في الحي."],
+chantait:["كانت تُغنّي","ʃɑ̃.tɛ","تشخيص: نسب الغناء إلى الماء."],
+doucement:["بهدوء","du.sə.mɑ̃","ظرف يوحي بالسكينة."],
+flottait:["كانت تعبق","flɔ.tɛ","Imparfait لوصف حالة مستمرة."],
+avançait:["كان يتقدم","a.vɑ̃.sɛ","حركة الطفل نحو دكان أبيه."],
+boutique:["دكّان","bu.tik","مكان عمل الأب."],
+"cœur":["قلب","kœʁ","«le cœur léger» تعبير عن الفرح."],
+léger:["خفيف","le.ʒe","ارتياح نفسي."],
+marchand:["تاجر","maʁ.ʃɑ̃","من فضاء السوق التقليدي."],
+étalait:["كان يعرض","e.ta.lɛ","Imparfait وصفي."],
+épices:["توابل","e.pis","ألوان وروائح الفضاء الشعبي."],
+pâle:["شاحب","pɑl","يعطي الضوء طابعاً هادئاً."],
+hésitant:["متردد","e.zi.tɑ̃","يكشف خوف الطفل."],
+aperçut:["لمح","a.pɛʁ.sy","Passé simple لحدث مفاجئ."],
+sévère:["صارم","se.vɛʁ","يصور سلطة الأب."],
+regard:["نظرة","ʁə.gaʁ","سلطة الأب دون كلام."],
+silence:["صمت","si.lɑ̃s","هدوء أو حزن البيت."],
+serrait:["كان يضم","sɛ.ʁɛ","تعلق الطفل بما يحب."],
+trésor:["كنز","tʁe.zɔʁ","استعارة لقيمة الصندوق."],
+cachait:["كان يخفي","ka.ʃɛ","عالم داخلي سري."],
+"rêves":["أحلام","ʁɛv","ملاذ الطفل."]
+};
+
+/* ===== النطق: يُستدعى مباشرة من حدث الضغط، بلا setTimeout ولا async ===== */
+var voices=[];
+function loadVoices(){try{voices=window.speechSynthesis.getVoices()||[]}catch(e){voices=[]}}
+try{loadVoices();window.speechSynthesis.addEventListener("voiceschanged",loadVoices)}catch(e){try{window.speechSynthesis.onvoiceschanged=loadVoices}catch(e2){}}
+function pickFr(){
+ var n=function(v){return(v.lang||"").replace("_","-").toLowerCase()},i;
+ for(i=0;i<voices.length;i++)if(n(voices[i])=="fr-fr")return voices[i];
+ for(i=0;i<voices.length;i++)if(n(voices[i]).indexOf("fr")==0)return voices[i];
+ return null;
+}
+var au=null;
+function speakFb(text){
+ var bad=function(){alert("تعذّر تشغيل الصوت. تأكد من الاتصال بالإنترنت وأن الهاتف غير صامت.")};
+ try{if(au)au.pause();au=new Audio("https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=fr&q="+encodeURIComponent(text));au.onerror=bad;var p=au.play();if(p&&p.catch)p.catch(bad)}catch(e){bad()}
+}
+function speak(text){
+ var s=window.speechSynthesis;
+ if(!s||!window.SpeechSynthesisUtterance){speakFb(text);return}
+ loadVoices();
+ var u=new SpeechSynthesisUtterance(text),v=pickFr(),started=false,fell=false;
+ if(v){u.voice=v;u.lang=v.lang}else{u.lang="fr-FR"}
+ u.rate=0.85;
+ var fb=function(){if(fell||started)return;fell=true;try{s.cancel()}catch(e){}speakFb(text)};
+ u.onstart=function(){started=true};
+ u.onerror=fb;
+ if(s.speaking||s.pending)s.cancel();
+ s.resume();
+ s.speak(u);
+ setTimeout(fb,1500); /* لا صوت خلال 1.5 ثانية: استعمل الصوت عبر الإنترنت */
+}
+
+/* ===== المفردات المحفوظة ===== */
+var saved=[];
+try{saved=JSON.parse(localStorage.getItem("mv")||"[]")}catch(e){saved=[]}
+function persist(){try{localStorage.setItem("mv",JSON.stringify(saved))}catch(e){}}
+
+/* ===== الكتاب: يقرأ ملف التلميذ محلياً فقط، ولا يُرفع شيء إلى أي خادم ===== */
+var DEMO=[{title:"Chapitre I (démo)",paras:PAGES.slice()}];
+var CHS=DEMO,isDemo=true,ci=0,cur=0,pg=[],busy=false;
+var book=document.getElementById("book"),sheet=document.getElementById("sheet"),st=document.getElementById("st"),sel=document.getElementById("chSel");
+var UD={};try{UD=JSON.parse(localStorage.getItem("ud")||"{}")}catch(e){}
+function dict(k){return UD[k]||G[k]}
+try{var sb=JSON.parse(localStorage.getItem("book")||"null");if(sb&&sb.length){CHS=sb;isDemo=false;var ps=JSON.parse(localStorage.getItem("pos")||"[0,0]");ci=Math.min(ps[0],CHS.length-1);cur=ps[1]}}catch(e){}
+function esc(t){return t.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function toks(ch){if(ch.t)return ch.t;var t=[];ch.paras.forEach(function(p){p.split(/\s+/).forEach(function(w,i){if(w)t.push({w:w,ps:i==0})})});return ch.t=t}
+function wkey(w){return w.replace(/^.*[’']/,"").toLowerCase().replace(/[^a-zàâçéèêëîïôûùüœ]/g,"")}
+function htmlOf(T,a,b){var h="",o=false;for(var i=a;i<b;i++){if(T[i].ps||i==a){if(o)h+="</p>";h+="<p"+(!T[i].ps?" class='c'":"")+">";o=true}h+=esc(T[i].w)+" "}return h+(o?"</p>":"")}
+function shell(n){var p=document.createElement("div");p.className="page";p.innerHTML='<div class="head"><span>'+BOOK+'</span><span>'+esc(CHS[ci].title)+'</span></div><div class="body"><div></div></div><div class="num">— '+n+' —</div>';return p}
+function paginate(){
+ var T=toks(CHS[ci]),p=shell(0);p.style.visibility="hidden";book.innerHTML="";book.appendChild(p);
+ var body=p.querySelector(".body"),box=body.firstChild;pg=[];var i=0,N=T.length;
+ while(i<N){var lo=1,hi=Math.min(450,N-i);
+  while(lo<hi){var m=(lo+hi+1)>>1;box.innerHTML=htmlOf(T,i,i+m);if(box.offsetHeight<=body.clientHeight)lo=m;else hi=m-1}
+  pg.push([i,i+lo]);i+=lo}
+ book.innerHTML="";if(!pg.length)pg=[[0,0]];
+}
+function render(i){
+ var T=toks(CHS[ci]),r=pg[i],p=shell(i+1),box=p.querySelector(".body div"),q=null;
+ for(var j=r[0];j<r[1];j++){
+  if(T[j].ps||!q){q=document.createElement("p");if(!T[j].ps)q.className="c";box.appendChild(q)}
+  var k=wkey(T[j].w);
+  if(k){var s=document.createElement("span");s.textContent=T[j].w;if(dict(k))s.className="w";(function(k,s,j){s.onclick=function(){show(k,s,j)}})(k,s,j);q.appendChild(s)}
+  else q.appendChild(document.createTextNode(T[j].w));
+  q.appendChild(document.createTextNode(" "));
+ }
+ return p;
+}
+var AC={};try{AC=JSON.parse(localStorage.getItem("ac")||"{}")}catch(e){}
+function acSave(){try{var ks=Object.keys(AC);while(ks.length>400)delete AC[ks.shift()];localStorage.setItem("ac",JSON.stringify(AC))}catch(e){}}
+function E(x){return esc(String(x==null?"":x))}
+function sentOf(j){
+ var T=toks(CHS[ci]),a=j,b=j,end=/[.!?…»]$/;
+ while(a>0&&j-a<40&&!end.test(T[a-1].w))a--;
+ while(b<T.length-1&&b-j<40&&!end.test(T[b].w))b++;
+ return T.slice(a,b+1).map(function(t){return t.w}).join(" ");
+}
+function aiWord(w,s){return ai("Tu aides un élève marocain (1ère Bac) qui lit « "+BOOK+" » d'Ahmed Sefrioui. Mot à expliquer : « "+w+" ». Phrase du texte : « "+s+" ». Réponds uniquement par un objet JSON avec ces clés : lemma (forme du dictionnaire), pos (nature grammaticale en français, ex. « nom masc. », « verbe (imparfait) »), ar (الترجمة العربية الأساسية للكلمة، قصيرة), ctx (شرح بالعربية لمعنى الكلمة في هذه الجملة تحديدًا، جملة واحدة), ipa (prononciation en API, sans barres obliques), note (ملاحظة مفيدة بالعربية: زمن الفعل أو صورة بلاغية أو تعبير ثابت أو كلمة مغربية؛ أو chaîne vide).",400)}
+var stok=0;
+function show(k,el,j){
+ var me=++stok;
+ document.querySelectorAll(".w.sel,.sl").forEach(function(e){e.classList.remove("sel","sl");e.style.background="";e.style.color=""});
+ el.classList.add(dict(k)?"sel":"sl");if(!dict(k)){el.style.background="var(--ac)";el.style.color="#fff"}
+ var raw=el.textContent.replace(/^[^A-Za-zÀ-ÿŒœ]+|[^A-Za-zÀ-ÿŒœ]+$/g,""),sent=sentOf(j==null?0:j),ck=k+"@"+sent.slice(0,80),state=AC[ck]?"ok":(hasKey()?"load":"nokey"),errm="";
+ function info(){var a=AC[ck];if(a)return a;var g=dict(k);return g?{ar:g[0],ipa:g[1],ctx:g[2]}:null}
+ function paint(){
+  var g=info(),h='<button class="x" id="cl">✕</button><span class="fr">'+E(raw||k)+'</span>';
+  if(g&&g.ipa)h+='<span class="ph">/'+E(g.ipa)+'/</span>';
+  h+='<button class="btn" id="sp">🔊 نطق</button>';
+  if(g){h+='<p>🇲🇦 <b>الترجمة:</b> '+E(g.ar);if(g.lemma&&String(g.lemma).toLowerCase()!=(raw||"").toLowerCase())h+=' <span class="mut">('+E(g.lemma)+(g.pos?" · "+E(g.pos):"")+')</span>';h+='</p>';if(g.ctx)h+='<p>📍 <b>في هذا السياق:</b> '+E(g.ctx)+'</p>';if(g.note)h+='<p class="mut">💡 '+E(g.note)+'</p>'}
+  if(state=="load")h+='<p class="mut">⏳ جارٍ الشرح بالسياق…</p>';
+  if(state=="nokey")h+='<p class="mut">لشرح أي كلمة بالسياق مع الترجمة والنطق، فعّل الذكاء الاصطناعي من تبويب ⚙.</p>';
+  if(state=="err")h+='<p class="mut">تعذّر الشرح: '+E(errm)+' <button class="btn" id="rt">إعادة</button></p>';
+  if(!g&&state!="load")h+='<p class="mut">أو اكتب ترجمتك:</p><input class="tr" id="tr" placeholder="الترجمة بالعربية"><button class="btn" id="ts">حفظ الترجمة</button>';
+  h+='<p><button class="btn" id="sv"></button></p>';
+  sheet.innerHTML=h;sheet.classList.add("on");
+  var sv=document.getElementById("sv");
+  function lab(){sv.textContent=saved.indexOf(k)<0?"⭐ حفظ الكلمة":"✔ محفوظة"}lab();
+  sv.onclick=function(){var i=saved.indexOf(k);if(i<0){saved.push(k);var a=AC[ck];if(a&&a.ar){UD[k]=[a.ar,a.ipa||"",a.ctx||""];try{localStorage.setItem("ud",JSON.stringify(UD))}catch(e){}}}else saved.splice(i,1);persist();lab();fcShow()};
+  var ts=document.getElementById("ts");
+  if(ts)ts.onclick=function(){var v=document.getElementById("tr").value.trim();if(v){UD[k]=[v,"",""];try{localStorage.setItem("ud",JSON.stringify(UD))}catch(e){}paint()}};
+  document.getElementById("cl").onclick=hide;
+  document.getElementById("sp").onclick=function(){speak(k)};
+  var rt=document.getElementById("rt");if(rt)rt.onclick=go;
+ }
+ function go(){state="load";paint();aiWord(raw||k,sent).then(function(r){AC[ck]=r;acSave();if(me==stok){state="ok";paint()}}).catch(function(e){if(me==stok){state="err";errm=e.message||e;paint()}})}
+ paint();
+ if(state=="load")go();
+}
+function hide(){stok++;sheet.classList.remove("on");document.querySelectorAll(".w.sel,.sl").forEach(function(e){e.classList.remove("sel","sl");e.style.background="";e.style.color=""})}
+function savePos(){if(!isDemo)try{localStorage.setItem("pos",JSON.stringify([ci,cur]))}catch(e){}}
+function upd(){document.getElementById("cnt").textContent=(cur+1)+" / "+pg.length;document.getElementById("prev").disabled=(ci==0&&cur==0);document.getElementById("next").disabled=(ci==CHS.length-1&&cur==pg.length-1);sel.value=ci;savePos()}
+function openCh(c,p){ci=c;paginate();cur=Math.max(0,Math.min(p<0?pg.length-1:p,pg.length-1));book.innerHTML="";book.appendChild(render(cur));upd()}
+function flip(d){
+ if(busy)return;hide();var n=cur+d;
+ if(n<0){if(ci>0)openCh(ci-1,-1);return}
+ if(n>=pg.length){if(ci<CHS.length-1)openCh(ci+1,0);return}
+ busy=true;var under,top;
+ if(d>0){under=render(n);top=render(cur);book.innerHTML="";book.appendChild(under);book.appendChild(top);top.classList.add("fl");void top.offsetWidth;top.style.transform="rotateY(-105deg)";top.style.opacity="0"}
+ else{under=render(cur);top=render(n);book.innerHTML="";book.appendChild(under);book.appendChild(top);top.classList.add("fl");top.style.transform="rotateY(-105deg)";top.style.opacity="0";void top.offsetWidth;top.style.transform="none";top.style.opacity="1"}
+ setTimeout(function(){cur=n;book.innerHTML="";book.appendChild(render(cur));upd();busy=false},780);
+}
+document.getElementById("next").onclick=function(){flip(1)};
+document.getElementById("prev").onclick=function(){flip(-1)};
+var sx=0,sy=0;
+book.addEventListener("touchstart",function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+book.addEventListener("touchend",function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)flip(dx<0?1:-1)},{passive:true});
+function fillSel(){sel.innerHTML="";CHS.forEach(function(c,i){var o=document.createElement("option");o.value=i;o.textContent=c.title;sel.appendChild(o)});document.getElementById("bDel").hidden=isDemo;document.getElementById("bSum").hidden=!isDemo;if(!isDemo)sumBox.hidden=true}
+sel.onchange=function(){hide();openCh(+sel.value,0)};
+
+/* ===== تحميل ملف التلميذ ===== */
+function toChapters(lines){
+ var chs=[],c=null,para="";
+ function endP(){if(c&&para.trim())c.paras.push(para.trim());para=""}
+ lines.forEach(function(raw){
+  var l=raw.replace(/\s+/g," ").trim();
+  if(!l||/^\d{1,3}$/.test(l))return;
+  var m=l.match(/^Chapitre\s+([IVXLC]+)\s*$/i);
+  if(m){endP();c={title:"Chapitre "+m[1].toUpperCase(),paras:[]};chs.push(c);return}
+  if(!c)return;
+  if(para&&/[.!?»:…]$/.test(para)&&/^[A-ZÀÂÇÉÈÊËÎÏÔÛÙÜŒ—\-–«"“]/.test(l))endP();
+  if(para.slice(-1)=="-"&&/^[a-zàâçéèêëîïôûùüœ]/.test(l))para=para.slice(0,-1)+l;
+  else para+=(para?" ":"")+l;
+ });
+ endP();return chs.filter(function(x){return x.paras.length});
+}
+async function readPdf(f){
+ if(!window.pdfjsLib)throw new Error("مكتبة PDF لم تُحمَّل. تحقق من الاتصال أو استعمل ملف TXT.");
+ pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+ var pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise,lines=[];
+ for(var n=1;n<=pdf.numPages;n++){
+  st.textContent="جارٍ قراءة الصفحة "+n+" من "+pdf.numPages+"…";
+  var tc=await(await pdf.getPage(n)).getTextContent(),y=null,line="";
+  tc.items.forEach(function(it){var yy=Math.round(it.transform[5]);if(y!==null&&Math.abs(yy-y)>2){lines.push(line);line=""}line+=it.str;y=yy});
+  lines.push(line);
+ }
+ return lines;
+}
+document.getElementById("fileIn").onchange=async function(e){
+ var f=e.target.files[0];if(!f)return;
+ try{
+  var lines=/\.pdf$/i.test(f.name)?await readPdf(f):(await f.text()).split(/\r?\n/);
+  var chs=toChapters(lines);
+  if(!chs.length)throw new Error("لم أجد عناوين «Chapitre …» في الملف.");
+  CHS=chs;isDemo=false;try{localStorage.setItem("book",JSON.stringify(chs))}catch(x){st.textContent="تعذّر حفظ النسخة على الجهاز، ستختفي عند إغلاق الصفحة."}
+  fillSel();openCh(0,0);st.textContent="نسختك محمّلة: "+chs.length+" فصلاً. تبقى على جهازك فقط ولا تُرفع إلى أي مكان.";
+ }catch(err){st.textContent="تعذّر التحميل: "+(err.message||err)}
+ e.target.value="";
+};
+document.getElementById("bPaste").onclick=function(){var b=document.getElementById("pasteBox");b.hidden=!b.hidden};
+document.getElementById("pgo").onclick=function(){var t=document.getElementById("pt").value;if(t.trim().length<50){st.textContent="الصق النص أولاً.";return}var chs=toChapters(t.split(/\r?\n/));if(!chs.length)chs=[{title:"Texte collé",paras:t.split(/\n+/).map(function(s){return s.trim()}).filter(Boolean)}];CHS=chs;isDemo=false;try{localStorage.setItem("book",JSON.stringify(chs))}catch(x){st.textContent="تعذّر حفظ النسخة على الجهاز."}ci=0;cur=0;fillSel();openCh(0,0);document.getElementById("pasteBox").hidden=true;document.getElementById("pt").value="";st.textContent="تم تحميل النص: "+chs.length+" فصل. يبقى على جهازك فقط."};
+document.getElementById("bDel").onclick=function(){try{localStorage.removeItem("book");localStorage.removeItem("pos")}catch(e){}CHS=DEMO;isDemo=true;fillSel();openCh(0,0);st.textContent="حُذفت النسخة. عاد النص التجريبي."};
+/* ===== الملخص والدليل ===== */
+var sumBox=document.getElementById("sum");
+sumBox.innerHTML='<b class="a">'+CH+' – Résumé</b><p style="direction:ltr;text-align:left;font-family:Georgia,serif;margin:6px 0">'+SUMMARY.fr+'</p><p>'+SUMMARY.ar+'</p>';
+document.getElementById("bSum").onclick=function(){sumBox.hidden=!sumBox.hidden};
+var side=document.getElementById("side");
+function list(a){return a.map(function(x){return"<p><b class='a'>"+x[0]+"</b><br>"+x[1]+"</p>"}).join("")}
+side.innerHTML='<button class="x" id="sx">✕</button><h3>👥 الشخصيات</h3>'+list(CHARS)+'<h3>📍 الفضاءات</h3>'+list(PLACES)+'<p class="mut">ملخصات أولية: راجعها مع كتابك قبل الاعتماد عليها.</p>';
+document.getElementById("bGuide").onclick=function(){side.classList.add("on")};
+document.getElementById("sx").onclick=function(){side.classList.remove("on")};
+
+/* ===== البطاقات ===== */
+fillSel();openCh(ci,cur);if(!isDemo)st.textContent="نسختك المحفوظة على جهازك. الفصل: "+CHS[ci].title;
+var fi=0,flipped=false,fc=document.getElementById("fc");
+function fcShow(){
+ var info=document.getElementById("fcInfo");
+ if(!saved.length){info.textContent="لا توجد كلمات محفوظة بعد. اضغط على كلمة في النص ثم «حفظ الكلمة».";fc.innerHTML="🗂";return}
+ if(fi>=saved.length)fi=0;var k=saved[fi],g=dict(k)||["(بلا ترجمة بعد)","",""];
+ info.textContent="بطاقة "+(fi+1)+" من "+saved.length+" · اضغط على البطاقة لقلبها";
+ fc.innerHTML=flipped?"<b style='font-size:1.3rem'>"+g[0]+"</b><span class='mut'>"+g[2]+"</span>":"<span class='fr' style='font-size:1.6rem'>"+k+"</span><span class='ph'>/"+g[1]+"/</span><button class='btn' id='fs'>🔊 نطق</button>";
+ var b=document.getElementById("fs");if(b)b.onclick=function(e){e.stopPropagation();speak(k)};
+}
+fc.onclick=function(){flipped=!flipped;fcShow()};
+document.getElementById("fNext").onclick=function(){fi++;flipped=false;fcShow()};
+document.getElementById("fPrev").onclick=function(){fi=(fi-1+saved.length)%Math.max(saved.length,1);flipped=false;fcShow()};
+document.getElementById("fDel").onclick=function(){if(saved.length){saved.splice(fi,1);persist();flipped=false;fcShow()}};
+fcShow();
+
+/* ===== الذكاء الاصطناعي ===== */
+var AI={};try{AI=JSON.parse(localStorage.getItem("ai")||"{}")}catch(e){}
+function hasKey(){return !!(AI.key&&String(AI.key).trim())}
+function jparse(t){t=String(t||"").replace(/```json|```/g,"");var a=t.indexOf("{"),b=t.lastIndexOf("}");if(a<0||b<a)throw new Error("جواب غير مفهوم، أعد المحاولة");return JSON.parse(t.slice(a,b+1))}
+async function ai(prompt,maxTok){
+ var prov=AI.prov||"gemini",model=(AI.model||"").trim()||(prov=="gemini"?"gemini-2.5-flash":"claude-haiku-5-5"),r,d;
+ if(prov=="gemini"){
+  r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(model)+":generateContent",{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":AI.key.trim()},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{responseMimeType:"application/json",temperature:0.3}})});
+  d=await r.json();if(!r.ok)throw new Error((d.error&&d.error.message)||("HTTP "+r.status));
+  var ps=d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts;
+  if(!ps)throw new Error("لا جواب من النموذج");
+  return jparse(ps.map(function(p){return p.text||""}).join(""));
+ }
+ r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":AI.key.trim(),"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:model,max_tokens:maxTok||1500,messages:[{role:"user",content:prompt}]})});
+ d=await r.json();if(!r.ok)throw new Error((d.error&&d.error.message)||("HTTP "+r.status));
+ return jparse((d.content||[]).map(function(c){return c.text||""}).join(""));
+}
+var aiProv=document.getElementById("aiProv"),aiKey=document.getElementById("aiKey"),aiModel=document.getElementById("aiModel"),aiS=document.getElementById("aiSt");
+aiProv.value=AI.prov||"gemini";aiKey.value=AI.key||"";aiModel.value=AI.model||"";
+function aiRead(){AI={prov:aiProv.value,key:aiKey.value.trim(),model:aiModel.value.trim()};try{localStorage.setItem("ai",JSON.stringify(AI))}catch(e){}}
+aiProv.onchange=aiKey.oninput=aiModel.oninput=aiRead;
+document.getElementById("aiTest").onclick=async function(){aiRead();if(!hasKey()){aiS.textContent="أدخل المفتاح أولاً.";return}aiS.textContent="⏳ جارٍ الاختبار…";try{var r=await ai('Réponds uniquement par ce JSON : {"ok":"oui"}',50);aiS.textContent="✔ الاتصال يعمل ("+(r.ok||"ok")+")"}catch(e){aiS.textContent="✖ "+(e.message||e)}};
+document.getElementById("aiClear").onclick=function(){AC={};acSave();aiS.textContent="تم مسح ذاكرة الشروح."};
+
+/* ===== الجهوي ===== */
+var xa=document.getElementById("xa"),xb=document.getElementById("xb"),xout=document.getElementById("xout"),xst=document.getElementById("xst"),xdirty=false;
+xa.oninput=xb.oninput=function(){xdirty=true};
+document.getElementById("xcur").onclick=function(){xdirty=false;xa.value=xb.value=cur+1};
+function showExam(d){
+ var items=(d&&d.items)||[],tot=0,h='<div class="box"><b class="a">'+E(d&&d.titre||"Sujet")+'</b></div>';
+ items.forEach(function(q,i){var p=+q.points||0;tot+=p;
+  h+='<div class="box"><b class="a">'+(i+1)+". "+E(q.section)+(p?" ("+p+" pt"+(p>1?"s":"")+")":"")+'</b><div style="direction:ltr;text-align:left;font-family:Georgia,serif">'+E(q.question)+'</div>'+(q.aide?'<div class="mut">💡 '+E(q.aide)+'</div>':'')+'<details><summary>التصحيح النموذجي</summary><div style="direction:ltr;text-align:left;font-family:Georgia,serif;margin-top:4px">'+E(q.correction)+'</div>'+(q.correction_ar?'<p>'+E(q.correction_ar)+'</p>':'')+'</details></div>'});
+ xout.innerHTML=h+'<div class="mut" style="text-align:center">المجموع: '+tot+' / 20</div>';
+}
+try{var lastEx=JSON.parse(localStorage.getItem("ex")||"null");if(lastEx&&lastEx.items)showExam(lastEx)}catch(e){}
+document.getElementById("xgo").onclick=async function(){
+ var txt=document.getElementById("xt").value.trim();
+ if(!hasKey()){xst.textContent="فعّل الذكاء الاصطناعي من تبويب ⚙ أولاً.";return}
+ if(!txt){
+  var T=toks(CHS[ci]),n=pg.length,a=Math.min(n,Math.max(1,+xa.value||1)),b=Math.min(n,Math.max(a,+xb.value||a));
+  txt=T.slice(pg[a-1][0],pg[b-1][1]).map(function(t){return t.w}).join(" ");
+ }
+ var words=txt.split(/\s+/);
+ if(words.length<25){xst.textContent="المقطع قصير جدًا. اختر صفحات أكثر أو الصق نصًا أطول.";return}
+ txt=words.slice(0,900).join(" ");
+ xst.textContent="⏳ جارٍ إعداد الأسئلة…";
+ var prompt="Tu es professeur de français au lycée au Maroc (1ère année Bac). Prépare un sujet sur l'extrait ci-dessous, dans le style de l'examen régional (الامتحان الجهوي), œuvre intégrale « "+BOOK+" » d'Ahmed Sefrioui ("+CHS[ci].title+"). Barème total : 20 points = Situation du passage (2 pts, 1 question) + Compréhension (6 pts, 3 questions) + Analyse (6 pts, 2 ou 3 questions : figures de style, temps verbaux, champs lexicaux, narrateur…) + Production écrite / expression personnelle (6 pts, 1 sujet). Les questions portent uniquement sur l'extrait et sont rédigées en français comme à l'examen.\n\nExtrait :\n<<<\n"+txt+"\n>>>\n\nRéponds uniquement par un objet JSON : {\"titre\":\"…\",\"items\":[{\"section\":\"Situation du passage\",\"points\":2,\"question\":\"…\",\"aide\":\"توجيه قصير بالعربية لفهم السؤال\",\"correction\":\"réponse modèle rédigée en français, précise, avec citations du texte\",\"correction_ar\":\"ملخص الجواب بالعربية\"}, …]}. Un objet par question ; la somme des points doit être 20.";
+ try{var d=await ai(prompt,4000);if(!d.items||!d.items.length)throw new Error("لم تصل أسئلة، أعد المحاولة");showExam(d);try{localStorage.setItem("ex",JSON.stringify(d))}catch(e){}xst.textContent="✔ تم. اضغط من جديد لتوليد نسخة مختلفة."}
+ catch(e){xst.textContent="✖ "+(e.message||e)}
+};
+
+var tabIds=["p1","p2","p3","p4"];
+function tab(n){hide();side.classList.remove("on");tabIds.forEach(function(id,i){document.getElementById(id).hidden=i+1!=n;document.getElementById("t"+(i+1)).className=(i+1==n?"on":"")+(i==3?" s":"")});if(n==2)fcShow();if(n==3&&!xdirty){xa.value=xb.value=cur+1}}
+[1,2,3,4].forEach(function(n){document.getElementById("t"+n).onclick=function(){tab(n)}});
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}</script>
+</body>
+</html>
